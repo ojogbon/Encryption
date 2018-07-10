@@ -50,7 +50,7 @@ public class Encrypt extends Application {
     Button btn,btn1;
     Label lab,lab1,lab2;
      File file;
-     TextArea atxt,atxt1;
+     TextArea atxt,atxt1,hide;
       engine eng = new engine();
       String valeme = eng.trimm;
       Vector sand;
@@ -76,6 +76,8 @@ public class Encrypt extends Application {
           lab2 = new Label();
          
           atxt = new TextArea();
+          atxt1 = new TextArea();
+          hide = new TextArea();
           atxt1 = new TextArea();
            lab.getStyleClass().add("lab");
            lab1.getStyleClass().add("lab");
@@ -117,14 +119,25 @@ public class Encrypt extends Application {
                 lab2.setText("Key and fields value can not be empty");
             }else{   
                
+          Vector keysconvert = eng.convert_to_cypher(txt2.getText());
+                System.out.println(keysconvert);
+                for(int x = 0 ; x < keysconvert.size(); x++){
+                   hide.appendText(keysconvert.elementAt(x).toString());
+                }
+                 String newkey = hide.getText();
+                 System.out.println(""+newkey);
+                  //atxt1.appendText(newkey);
           Vector myvale = eng.convert_to_cypher(txt.getText());
             key = txt2.getText();
             for(int u = 0 ; u < myvale.size(); u++){
                  
-                System.out.print(myvale.elementAt(u));
-              atxt.appendText(myvale.elementAt(u).toString());
+                System.out.print(myvale.elementAt(u)+""+newkey);
+                String trip = myvale.elementAt(u).toString()+""+newkey;
+              atxt.appendText(trip);
             }
+           
             myvale.clear();
+            hide.clear();
             }
               
         });
@@ -133,18 +146,25 @@ public class Encrypt extends Application {
             if(txt1.getText().trim().isEmpty() || txt3.getText().trim().isEmpty()){
                  lab2.setText("Key and fields value can not be empty");
             }else{
-                System.out.println(key);
-                if(key.trim().isEmpty() || !txt3.getText().equals(key)){ 
-                  lab2.setText("Invalid key !");
-                }else{
+                
                
                  Vector realvalue = eng.realvalue(txt1.getText());
            
                for(int f = 0 ; f < realvalue.size(); f++){
                  
-               atxt1.appendText(realvalue.elementAt(f).toString());
+                  
+               hide.appendText(realvalue.elementAt(f).toString());
                
             }
+               System.out.println(key);
+               key = txt3.getText();
+                 String check = hide.getText();
+                if(!check.contains(key)){ 
+                  lab2.setText("Invalid key !");
+                }else{
+               String va = hide.getText();
+                  atxt1.clear();
+                 atxt1.setText(va.replaceAll(txt3.getText(), ""));
                     realvalue.clear();
             }
             }
